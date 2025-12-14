@@ -20,7 +20,7 @@ function isValidEircode(value) {
 
 let rowNumber = 1;
 
-fs.createReadStream("personal_information.csv").pipe(csv()).on("data", (row) => {
+fs.createReadStream("Personal_information.csv").pipe(csv()).on("data", (row) => {
     rowNumber++;
 
     const first_name = row.first_name;
@@ -56,11 +56,11 @@ fs.createReadStream("personal_information.csv").pipe(csv()).on("data", (row) => 
       return;
     }
 
-    const sql = "INSERT INTO mysql_table (first_name, second_name, email, phone_number, eircode) VALUES (?, ?, ?, ?, ?)";
+    const query = "INSERT INTO mysql_table (first_name, second_name, email, phone_number, eircode) VALUES (?, ?, ?, ?, ?)";
 
     const currentRow = rowNumber; 
 
-    database.query(sql, [first_name, last_name, email, phone, eir_code], (err) => {
+    database.query(query, [first_name, last_name, email, phone, eir_code], (err) => {
         if (err) {
           console.error(`Database error on row ${currentRow}:`, err.message);
         } else {

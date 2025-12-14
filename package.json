@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node server.js",
-      "dev": "nodemon server.js",
-      "csv": "node index.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "csv": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/CCT-Dublin/ca-2-server-side-programming-Pedro-henrique-fir#readme",
   "dependencies": {
+    "body-parser": "^2.2.1",
     "csv-parser": "^3.2.0",
     "express": "^5.2.1",
     "helmet": "^8.1.0",

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Server-side Programming</title>
+</head>
+<body>
+    <h1>Server-side Programming - CA2</h1>
+    <!-- 
+        Form that sends data to the server using POST method and includes client-side validation via validateForm function
+
+        There are inputs for first name, last name, email, phone number, 
+        and eircode, each with associated error message spans where validation errors can be shown
+
+    -->
+    <div class="form-container">
+    <form method="post" action="/submit" onsubmit="return validateForm(event)">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name">
+        <span id="firstNameError" class="error-message"></span>
+
+        <label for="second_name">Second Name:</label>
+        <input type="text" id="second_name" name="second_name">
+        <span id="lastNameError" class="error-message"></span>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <span id="emailError" class="error-message"></span>
+
+        <label for="phone_number">Phone Number</label>
+        <input type="tel" id="phone_number" name="phone_number">
+        <span id="phoneError" class="error-message"></span>
+
+        <label for="eircode">Eircode</label>
+        <input type="text" id="eircode" name="eircode">
+        <span id="eircodeError" class="error-message"></span>
+
+        <input type="submit" value="Submit">
+
+        <!-- This span show the message from the server success or error -->
+        <span id="message"></span>
+    </form>
+    </div>
+
+    <!-- Link to the external JavaScript file for client-side validation -->
+    <script src="script.js"></script>
+</body>
+</html>
