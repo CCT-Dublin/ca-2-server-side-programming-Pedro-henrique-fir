@@ -1,3 +1,15 @@
+//Wait for the DOM to load before attaching event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    //Get the form element
+    const form = document.getElementById('userForm');
+    //Attach submit event listener to the form
+    form.addEventListener('submit', (event) => {
+        if (!validateForm(event)) {
+        event.preventDefault();
+        }
+    });
+});
+
 //Get URL parameters to check for error or success messages
 const urlParams = new URLSearchParams(window.location.search);
 

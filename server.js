@@ -5,14 +5,33 @@ const express = require('express');
 //Imports database.js to connect with MySQL database
 const database = require("./database");
 
-//Middleware to parse form data sent via POST
-const bodyParser = require('body-parser');
-
 //Module to handle and resolve file paths
 const path = require('path');
 
+//Helmet for security hardening
+const helmet = require('helmet');
+
 //Initializes the Express
 const app = express();
+
+//Use Helmet to set HTTP headers for security
+app.use(helmet());
+
+//Content Security Policy configuration
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"],
+      imgSrc: ["'self'"],
+      connectSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      frameAncestors: ["'none'"]
+    }
+  })
+);
 
 //Port where the server will run
 const PORT = 3000;
@@ -20,9 +39,8 @@ const PORT = 3000;
 //Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Enables Express to read form data sent via HTML forms
-app.use(bodyParser.urlencoded({ extended: true }));
-
+//Parses form data POST, so it is available in req.body
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     const now = new Date().toISOString();

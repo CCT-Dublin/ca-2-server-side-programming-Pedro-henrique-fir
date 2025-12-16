@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/CCT-Dublin/ca-2-server-side-programming-Pedro-henrique-fir#readme",
   "dependencies": {
-    "body-parser": "^2.2.1",
     "csv-parser": "^3.2.0",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
