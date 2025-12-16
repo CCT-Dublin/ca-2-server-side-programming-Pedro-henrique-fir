@@ -11,6 +11,9 @@ const path = require('path');
 //Helmet for security hardening
 const helmet = require('helmet');
 
+//Import validation module
+const { validateFullUser } = require('./validation');
+
 //Initializes the Express
 const app = express();
 
@@ -53,39 +56,18 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'form.html'));
 });
 
-//Middleware to validate user data
-function validateUserData(req, res, next) {
+//Middleware to validate form data
+const validateFormData = (req, res, next) => {
+    const result = validateFullUser(req.body);
 
-    const { first_name, second_name, email, phone_number, eircode } = req.body;
-
-    const firstNameTrim = first_name?.trim();
-    const secondNameTrim = second_name?.trim();
-    const phoneTrim = phone_number?.trim();
-    const eircodeTrim = eircode?.toUpperCase().trim();
-
-    const nameRegex = /^[a-zA-Z0-9]{1,20}$/;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const phoneRegex = /^\d{10}$/;
-    const eircodeRegex = /^[0-9][a-zA-Z0-9]{5}$/;
-
-    if (
-        !nameRegex.test(firstNameTrim) ||
-        !nameRegex.test(secondNameTrim) ||
-        !emailRegex.test(email) ||
-        !phoneRegex.test(phoneTrim) ||
-        !eircodeRegex.test(eircodeTrim)
-    ) {
+    if(!result.isValid) {
         return res.redirect('/?error=true');
     }
 
-
-    req.body.first_name = firstNameTrim;
-    req.body.second_name = secondNameTrim;
-    req.body.phone_number = phoneTrim;
-    req.body.eircode = eircodeTrim;
-
+    // Replace req.body with the cleaned and validated data
+    req.body = result.data;
     next();
-}
+};
 
 //Check if database schema is correct before accepting requests
 function checkDatabaseSchema() {
@@ -127,7 +109,7 @@ function checkDatabaseSchema() {
 
 
 //POST route to process the submitted form data
-app.post('/submit', validateUserData, (req, res) => {
+app.post('/submit', validateFormData, (req, res) => {
 
     //Extract form data from the request body
     const { first_name, second_name, email, phone_number, eircode } = req.body;
