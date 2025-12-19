@@ -45,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Parses form data POST, so it is available in req.body
 app.use(express.urlencoded({ extended: true }));
 
+//Middleware to log each request with timestamp
 app.use((req, res, next) => {
     const now = new Date().toISOString();
     console.log(`${req.method} ${req.url} - ${now}`);
@@ -88,12 +89,15 @@ function checkDatabaseSchema() {
             'eircode'
         ];
 
+        //Extract existing column names from the results
         const existingColumns = results.map(column => column.Field);
 
+        //Check for missing columns
         const missingColumns = requiredColumns.filter(
             col => !existingColumns.includes(col)
         );
 
+        //If any required columns are missing, log error and exit
         if (missingColumns.length > 0) {
             console.error(
                 'Database schema is invalid. Missing columns:',
@@ -105,8 +109,6 @@ function checkDatabaseSchema() {
         console.log('Database schema verified successfully');
     });
 }
-
-
 
 //POST route to process the submitted form data
 app.post('/submit', validateFormData, (req, res) => {

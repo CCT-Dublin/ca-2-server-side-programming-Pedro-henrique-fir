@@ -34,7 +34,7 @@ function isValidEircode(eircode) {
 
 // Validate full user data and return clean version and errors
 function validateFullUser(data) {
-  const cleaned = {
+    const cleaned = {
     first_name: data.first_name.trim(),
 
     // Support both 'second_name' and 'last_name' keys
@@ -47,39 +47,46 @@ function validateFullUser(data) {
 
     // Support both 'eircode' and 'eir_code' keys, convert to uppercase
     eircode: (data.eircode || data.eir_code).trim().toUpperCase()
-  };
+    };
 
-  // Cosnt to hold validation messages errors
-  const errors = [];
+    // Cosnt to hold validation messages errors
+    const errors = [];
 
-  if (!isValidName(cleaned.first_name)) {
-    errors.push('First name must be alphanumeric and up to 20 characters');
+    // Check if name is valid
+    if (!isValidName(cleaned.first_name)) {
+        errors.push('First name must be alphanumeric and up to 20 characters');
 
-  }
+    }
 
-  if (!isValidName(cleaned.second_name)) {
-    errors.push('Last name must be alphanumeric and up to 20 characters');
-  }
+    // Check if last name is valid
+    if (!isValidName(cleaned.second_name)) {
+        errors.push('Last name must be alphanumeric and up to 20 characters');
+    }
 
-  if (!isValidEmail(cleaned.email)) {
-    errors.push('Invalid email format');
-  }
+    // Check if email is valid
+    if (!isValidEmail(cleaned.email)) {
+        errors.push('Invalid email format');
+    }
 
-  if (!isValidPhone(cleaned.phone_number)) {
-    errors.push('Phone number must have exactly 10 digits');
-  }
+    // Check if phone number is valid
+    if (!isValidPhone(cleaned.phone_number)) {
+        errors.push('Phone number must have exactly 10 digits');
+    }
 
-  if (!isValidEircode(cleaned.eircode)) {
-    errors.push('Eircode must start with a number and have 6 alphanumeric characters');
-  }
+    // Check if eircode is valid
+    if (!isValidEircode(cleaned.eircode)) {
+        errors.push('Eircode must start with a number and have 6 alphanumeric characters');
+    }
 
-  return {
-    isValid: errors.length === 0,
-    errors,
-    data: cleaned
-  };
+    // Return validation result
+    return {
+        isValid: errors.length === 0,
+        errors,
+        data: cleaned
+    };
 }
 
+// Export validation functions
 module.exports = {
   isValidName,
   isValidEmail,
