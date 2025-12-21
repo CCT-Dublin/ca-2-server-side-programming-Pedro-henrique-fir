@@ -1,3 +1,22 @@
+/*
+!!!!!!!!!!!!!!  NOTE !!!!!!!!!!!!!!
+
+Moodle does not allow uploading folders, only individual files.
+Because of that, the "public" folder is not included in the Moodle submission.
+
+In the GitHub repository, the correct structure is:
+- /public/form.html
+- /public/style.css
+- /public/script.js
+
+Professor Shree Krishna When testing locally,
+please recreate the "public" folder and place the three files inside it
+
+
+https://github.com/CCT-Dublin/ca-2-server-side-programming-Pedro-henrique-fir
+
+*/
+
 
 //Imports Express to create the web server
 const express = require('express');
@@ -56,7 +75,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'form.html'));
 });
-
+ 
 //Middleware to validate form data
 const validateFormData = (req, res, next) => {
     const result = validateFullUser(req.body);
@@ -138,7 +157,15 @@ app.post('/submit', validateFormData, (req, res) => {
 checkDatabaseSchema();
 
 //Starts the server and listens on the specified port
-app.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`);
+const server = app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
 
+//If there is an error starting the server it will print the error message
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.log(`Error: Port ${PORT} is already in use.`);
+  } else {
+    console.log("Server error:", err.message);
+  }
 });

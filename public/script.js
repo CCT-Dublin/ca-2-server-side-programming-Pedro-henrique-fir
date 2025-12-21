@@ -49,7 +49,7 @@ function validateForm(event) {
     if (!nameRegex.test(firstName.value)) {
         //If invalid, set border to red and show error message in span
         firstName.style.border = '1px solid red'; 
-        spanFirstName.innerText = 'First Name must be alphabetic and max 20 characters long.';
+        spanFirstName.innerText = 'First Name must be alphanumeric and max 20 characters long.';
         validateFormCompleted = false;
 
     } else {
@@ -66,7 +66,7 @@ function validateForm(event) {
     if (!nameRegex.test(lastName.value)) {
         //If invalid, set border to red and show error message in span
         lastName.style.border = '1px solid red';
-        spanLastName.innerText = 'Last Name must be alphabetic and max 20 characters long.';
+        spanLastName.innerText = 'Last Name must be alphanumeric and max 20 characters long.';
         validateFormCompleted = false;
 
     } else {
